@@ -4,6 +4,7 @@ import com.vilela.felipe.api_2025.conserto.Conserto;
 import com.vilela.felipe.api_2025.conserto.ConsertoRepository;
 import com.vilela.felipe.api_2025.conserto.DadosConserto;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ public class ConsertoController {
 
     @PostMapping
     @Transactional
-    public void cadastrar(@RequestBody DadosConserto dados) {
+    public void cadastrar(@RequestBody @Valid DadosConserto dados) {
         repository.save(new Conserto(dados));
     }
 
