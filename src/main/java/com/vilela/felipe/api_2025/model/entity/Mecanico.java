@@ -18,4 +18,14 @@ public class Mecanico {
         this.nome = dados.nome();
         this.anosXp = dados.anosXp();
     }
+
+    public void atualizarInformacoes(DadosMecanico dadosMecanico) {
+        if (dadosMecanico.nome() != null){
+            this.nome = dadosMecanico.nome();
+        }
+
+        if (dadosMecanico.anosXp() != null){
+            this.anosXp = dadosMecanico.anosXp();
+        }
+    }
 }

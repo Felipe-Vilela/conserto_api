@@ -1,5 +1,6 @@
 package com.vilela.felipe.api_2025.model.entity;
 
+import com.vilela.felipe.api_2025.model.dto.DadosAtualizacaoConserto;
 import com.vilela.felipe.api_2025.model.dto.DadosConserto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,5 +39,16 @@ public class Conserto {
 
     public void excluir(){
         this.ativo = false;
+    }
+
+    public void atualizarInformacoes(DadosAtualizacaoConserto dados) {
+        if (dados.dataSaida() != null){
+            this.dataSaida = dados.dataSaida();
+        }
+
+        if (dados.mecanico() != null){
+            this.mecanico.atualizarInformacoes(dados.mecanico());
+        }
+
     }
 }
