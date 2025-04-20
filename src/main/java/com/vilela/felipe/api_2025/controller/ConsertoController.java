@@ -33,8 +33,14 @@ public class ConsertoController {
 
     @GetMapping("resumo")
     public List<DadosConsertoResumo> listarResumo(){
-        return repository.findAll().stream().map(DadosConsertoResumo::new).toList();
+        return repository.findAllByAtivoTrue().stream().map(DadosConsertoResumo::new).toList();
     }
 
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void excluir(@PathVariable Long id){
+        Conserto conserto = repository.getReferenceById(id);
+        conserto.excluir();
+    }
 
 }
