@@ -1,5 +1,6 @@
 package com.vilela.felipe.api_2025.controller;
 
+import com.vilela.felipe.api_2025.model.dto.DadosConsertoResumo;
 import com.vilela.felipe.api_2025.model.entity.Conserto;
 import com.vilela.felipe.api_2025.repository.ConsertoRepository;
 import com.vilela.felipe.api_2025.model.dto.DadosConserto;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/conserto")
+@RequestMapping("conserto")
 public class ConsertoController {
 
     @Autowired
@@ -28,8 +29,10 @@ public class ConsertoController {
         return repository.findAll();
     }
 
-    // apenas as datas, o nome do mecânico,a marca e o modelo
-    //do veículo
+    @GetMapping("resumo")
+    public List<DadosConsertoResumo> listarResumo(){
+        return repository.findAll().stream().map(DadosConsertoResumo::new).toList();
+    }
 
-    
+
 }
