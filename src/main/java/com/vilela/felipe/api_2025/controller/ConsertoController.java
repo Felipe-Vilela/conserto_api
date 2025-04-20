@@ -9,9 +9,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("conserto")
@@ -28,13 +30,27 @@ public class ConsertoController {
 
     @GetMapping
     public Page<Conserto> listar(Pageable pageable){
-        return repository.findAll(pageable);
+
+        return repository.findAllByAtivoTrue(pageable);
     }
 
     @GetMapping("resumo")
     public List<DadosConsertoResumo> listarResumo(){
         return repository.findAllByAtivoTrue().stream().map(DadosConsertoResumo::new).toList();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Conserto> getMedicoById(@PathVariable Long id){
+        Optional<Conserto> consertoOptional = repository.findById(id);
+
+        if (consertoOptional.isPresent()){
+            Conserto conserto = consertoOptional.get();
+            return ResponseEntity.ok(conserto);
+        }else {
+           return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @DeleteMapping("/{id}")
     @Transactional
