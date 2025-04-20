@@ -1,0 +1,1 @@
+ALTER TABLE consertos ALTER COLUMN anos_xp DROP NOT NULL;
