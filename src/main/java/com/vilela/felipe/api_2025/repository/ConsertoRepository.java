@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface ConsertoRepository extends JpaRepository<Conserto, Long> {
     List<Conserto> findAllByAtivoTrue();
+    Page<Conserto> findAllByAtivoTrue(Pageable pageable);
 }
