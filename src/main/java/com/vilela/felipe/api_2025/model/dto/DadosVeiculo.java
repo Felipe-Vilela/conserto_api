@@ -13,5 +13,7 @@ public record DadosVeiculo(
 
         @NotBlank(message = "É obrigatório informar o campo 'ano'.")
         @Pattern(regexp = "^\\d{4}$", message = "O campo 'ano' deve ter 4 números")
-        String ano) {
+        String ano,
+
+        String cor) {
 }
