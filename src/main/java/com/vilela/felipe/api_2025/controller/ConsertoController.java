@@ -7,6 +7,8 @@ import com.vilela.felipe.api_2025.model.dto.DadosConserto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +27,8 @@ public class ConsertoController {
     }
 
     @GetMapping
-    public List<Conserto> listar(){
-        return repository.findAll();
+    public Page<Conserto> listar(Pageable pageable){
+        return repository.findAll(pageable);
     }
 
     @GetMapping("resumo")
