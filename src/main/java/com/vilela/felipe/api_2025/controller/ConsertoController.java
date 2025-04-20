@@ -1,8 +1,8 @@
 package com.vilela.felipe.api_2025.controller;
 
-import com.vilela.felipe.api_2025.conserto.Conserto;
-import com.vilela.felipe.api_2025.conserto.ConsertoRepository;
-import com.vilela.felipe.api_2025.conserto.DadosConserto;
+import com.vilela.felipe.api_2025.model.entity.Conserto;
+import com.vilela.felipe.api_2025.repository.ConsertoRepository;
+import com.vilela.felipe.api_2025.model.dto.DadosConserto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

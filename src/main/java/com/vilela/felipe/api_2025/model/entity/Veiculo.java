@@ -1,5 +1,6 @@
-package com.vilela.felipe.api_2025.veiculo;
+package com.vilela.felipe.api_2025.model.entity;
 
+import com.vilela.felipe.api_2025.model.dto.DadosVeiculo;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,6 @@
-package com.vilela.felipe.api_2025.conserto;
+package com.vilela.felipe.api_2025.model.entity;
 
-import com.vilela.felipe.api_2025.mecanico.Mecanico;
-import com.vilela.felipe.api_2025.veiculo.Veiculo;
+import com.vilela.felipe.api_2025.model.dto.DadosConserto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
