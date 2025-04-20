@@ -6,5 +6,5 @@ public record DadosMecanico(
         @NotBlank(message = "É obrigatório informar o campo 'nome'.")
         String nome,
 
-        String anos_xp) {
+        String anosXp) {
 }
