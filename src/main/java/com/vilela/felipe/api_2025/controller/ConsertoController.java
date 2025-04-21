@@ -31,13 +31,13 @@ public class ConsertoController {
 
     @GetMapping
     public Page<Conserto> listar(Pageable pageable){
-
-        return repository.findAllByAtivoTrue(pageable);
+        return repository.findAll(pageable);
     }
 
     @GetMapping("resumo")
-    public List<DadosConsertoResumo> listarResumo(){
-        return repository.findAllByAtivoTrue().stream().map(DadosConsertoResumo::new).toList();
+    public ResponseEntity<List<DadosConsertoResumo>> listarResumo(){
+        var pagina = repository.findAllByAtivoTrue().stream().map(DadosConsertoResumo::new).toList();
+        return ResponseEntity.ok(pagina);
     }
 
     @GetMapping("/{id}")
@@ -52,7 +52,7 @@ public class ConsertoController {
         }
     }
 
-    @PutMapping
+    @PatchMapping
     @Transactional
     public void atualizar(@RequestBody @Valid DadosAtualizacaoConserto dados){
         Conserto conserto = repository.getReferenceById(dados.id());
@@ -62,9 +62,11 @@ public class ConsertoController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void excluir(@PathVariable Long id){
+    public ResponseEntity<DadosConserto> excluir(@PathVariable Long id){
         Conserto conserto = repository.getReferenceById(id);
         conserto.excluir();
+
+        return ResponseEntity.noContent().build();
     }
 
 }
