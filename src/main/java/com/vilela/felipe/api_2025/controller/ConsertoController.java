@@ -5,7 +5,7 @@ import com.vilela.felipe.api_2025.model.dto.DadosConsertoResumo;
 import com.vilela.felipe.api_2025.model.dto.DadosDetalhadosConserto;
 import com.vilela.felipe.api_2025.model.entity.Conserto;
 import com.vilela.felipe.api_2025.repository.ConsertoRepository;
-import com.vilela.felipe.api_2025.model.dto.DadosConserto;
+import com.vilela.felipe.api_2025.model.dto.DadosCadastroConserto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,13 +27,16 @@ public class ConsertoController {
 
     @PostMapping
     @Transactional
-    public void cadastrar(@RequestBody @Valid DadosConserto dados) {
-        repository.save(new Conserto(dados));
+    public ResponseEntity<DadosDetalhadosConserto> cadastrar(@RequestBody @Valid DadosCadastroConserto dados, UriComponentsBuilder uriBuilder) {
+        var conserto = new Conserto(dados);
+        repository.save(conserto);
+        var uri = uriBuilder.path("/conserto/{id}").buildAndExpand(conserto.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DadosDetalhadosConserto(conserto));
     }
 
     @GetMapping
-    public Page<Conserto> listar(Pageable pageable){
-        return repository.findAll(pageable);
+    public ResponseEntity<Page<Conserto>> listar(Pageable pageable){
+        return ResponseEntity.ok(repository.findAll(pageable));
     }
 
     @GetMapping("resumo")
@@ -42,12 +46,12 @@ public class ConsertoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Conserto> getMedicoById(@PathVariable Long id){
+    public ResponseEntity<DadosDetalhadosConserto> getMedicoById(@PathVariable Long id){
         Optional<Conserto> consertoOptional = repository.findById(id);
 
         if (consertoOptional.isPresent()){
             Conserto conserto = consertoOptional.get();
-            return ResponseEntity.ok(conserto);
+            return ResponseEntity.ok(new DadosDetalhadosConserto(conserto));
         }else {
            return ResponseEntity.notFound().build();
         }
@@ -55,21 +59,29 @@ public class ConsertoController {
 
     @PatchMapping
     @Transactional
-    public ResponseEntity<DadosDetalhadosConserto> atualizar(@RequestBody @Valid DadosAtualizacaoConserto dados){
-        Conserto conserto = repository.getReferenceById(dados.id());
-        conserto.atualizarInformacoes(dados);
+    public ResponseEntity<DadosDetalhadosConserto> atualizar(@RequestBody @Valid DadosAtualizacaoConserto dados) {
+        Optional<Conserto> consertoOptional = repository.findById(dados.id());
 
-        return ResponseEntity.ok(new DadosDetalhadosConserto(conserto));
-
+        if (consertoOptional.isPresent()) {
+            Conserto conserto = consertoOptional.get();
+            conserto.atualizarInformacoes(dados);
+            return ResponseEntity.ok(new DadosDetalhadosConserto(conserto));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<DadosConserto> excluir(@PathVariable Long id){
-        Conserto conserto = repository.getReferenceById(id);
-        conserto.excluir();
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        Optional<Conserto> consertoOptional = repository.findById(id);
 
-        return ResponseEntity.noContent().build();
+        if (consertoOptional.isPresent()) {
+            Conserto conserto = consertoOptional.get();
+            conserto.excluir();
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-
 }

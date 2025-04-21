@@ -1,7 +1,7 @@
 package com.vilela.felipe.api_2025.model.entity;
 
 import com.vilela.felipe.api_2025.model.dto.DadosAtualizacaoConserto;
-import com.vilela.felipe.api_2025.model.dto.DadosConserto;
+import com.vilela.felipe.api_2025.model.dto.DadosCadastroConserto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,7 +29,7 @@ public class Conserto {
     private Veiculo veiculo;
     private Boolean ativo;
 
-    public Conserto (DadosConserto dados){
+    public Conserto (DadosCadastroConserto dados){
         this.ativo = true;
         this.dataEntrada = dados.dataEntrada();
         this.dataSaida = dados.dataSaida();
