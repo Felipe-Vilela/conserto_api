@@ -2,6 +2,7 @@ package com.vilela.felipe.api_2025.controller;
 
 import com.vilela.felipe.api_2025.model.dto.DadosAtualizacaoConserto;
 import com.vilela.felipe.api_2025.model.dto.DadosConsertoResumo;
+import com.vilela.felipe.api_2025.model.dto.DadosDetalhadosConserto;
 import com.vilela.felipe.api_2025.model.entity.Conserto;
 import com.vilela.felipe.api_2025.repository.ConsertoRepository;
 import com.vilela.felipe.api_2025.model.dto.DadosConserto;
@@ -54,9 +55,11 @@ public class ConsertoController {
 
     @PatchMapping
     @Transactional
-    public void atualizar(@RequestBody @Valid DadosAtualizacaoConserto dados){
+    public ResponseEntity<DadosDetalhadosConserto> atualizar(@RequestBody @Valid DadosAtualizacaoConserto dados){
         Conserto conserto = repository.getReferenceById(dados.id());
         conserto.atualizarInformacoes(dados);
+
+        return ResponseEntity.ok(new DadosDetalhadosConserto(conserto));
 
     }
 
