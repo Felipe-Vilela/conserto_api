@@ -46,7 +46,7 @@ public class ConsertoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DadosDetalhadosConserto> getMedicoById(@PathVariable Long id){
+    public ResponseEntity<DadosDetalhadosConserto> getConsertoById(@PathVariable Long id){
         Optional<Conserto> consertoOptional = repository.findById(id);
 
         if (consertoOptional.isPresent()){
