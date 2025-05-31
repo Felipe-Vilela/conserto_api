@@ -8,7 +8,6 @@ import com.vilela.felipe.api_2025.repository.ConsertoRepository;
 import com.vilela.felipe.api_2025.model.dto.DadosCadastroConserto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,11 @@ import java.util.Optional;
 @RequestMapping("conserto")
 public class ConsertoController {
 
-    @Autowired
-    private ConsertoRepository repository;
+    private final ConsertoRepository repository;
+
+    public ConsertoController(ConsertoRepository repository) {
+        this.repository = repository;
+    }
 
     @PostMapping
     @Transactional
