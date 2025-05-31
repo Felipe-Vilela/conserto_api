@@ -6,6 +6,7 @@ import com.vilela.felipe.api_2025.model.dto.DadosDetalhadosConserto;
 import com.vilela.felipe.api_2025.model.entity.Conserto;
 import com.vilela.felipe.api_2025.repository.ConsertoRepository;
 import com.vilela.felipe.api_2025.model.dto.DadosCadastroConserto;
+import com.vilela.felipe.api_2025.util.TratadorDeErros;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -22,9 +23,11 @@ import java.util.Optional;
 public class ConsertoController {
 
     private final ConsertoRepository repository;
+    private final TratadorDeErros tratadorDeErros;
 
-    public ConsertoController(ConsertoRepository repository) {
+    public ConsertoController(ConsertoRepository repository, TratadorDeErros tratadorDeErros) {
         this.repository = repository;
+        this.tratadorDeErros = tratadorDeErros;
     }
 
     @PostMapping
@@ -75,7 +78,7 @@ public class ConsertoController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+    public ResponseEntity excluir(@PathVariable Long id) {
         Optional<Conserto> consertoOptional = repository.findById(id);
 
         if (consertoOptional.isPresent()) {
@@ -83,7 +86,7 @@ public class ConsertoController {
             conserto.excluir();
             return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.notFound().build();
+            return tratadorDeErros.tratarErro404();
         }
     }
 }
