@@ -1,6 +1,9 @@
 package com.vilela.felipe.api_2025.controller;
 
 import com.vilela.felipe.api_2025.model.dto.DadosAutenticacao;
+import com.vilela.felipe.api_2025.usuario.Usuario;
+import com.vilela.felipe.api_2025.util.security.DadosTokenJWT;
+import com.vilela.felipe.api_2025.util.security.JwtTokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AutenticacaoController {
 
     private final AuthenticationManager manager;
+    private final JwtTokenService tokenService;
 
-    public AutenticacaoController(AuthenticationManager manager) {
+    public AutenticacaoController(AuthenticationManager manager, JwtTokenService tokenService) {
         this.manager = manager;
+        this.tokenService = tokenService;
     }
 
     @PostMapping
@@ -25,6 +30,7 @@ public class AutenticacaoController {
 
         var token = new UsernamePasswordAuthenticationToken( dados.login(), dados.senha() );
         var authentication = manager.authenticate(token);
-        return ResponseEntity.ok().build();
+        var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 }
