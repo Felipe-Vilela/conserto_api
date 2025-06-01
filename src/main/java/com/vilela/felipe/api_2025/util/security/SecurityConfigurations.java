@@ -33,8 +33,6 @@ public class SecurityConfigurations {
                 .build();
     }
 
-
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
             throws Exception {
@@ -45,5 +43,4 @@ public class SecurityConfigurations {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

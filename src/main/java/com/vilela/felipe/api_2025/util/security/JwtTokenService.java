@@ -7,7 +7,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.vilela.felipe.api_2025.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -19,7 +18,6 @@ public class JwtTokenService<JWTVerifier> {
     private String secret;
 
     public String gerarToken(Usuario usuario) {
-        System.out.println(secret);
         try {
             var algoritmo = Algorithm.HMAC256(secret);
             return JWT.create()
@@ -47,5 +45,4 @@ public class JwtTokenService<JWTVerifier> {
     private Instant dataExpiracao() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
-
 }
